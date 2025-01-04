@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Windows.Forms;
 
-namespace C4
+namespace Shutdown.Host.Forms
 {
     public partial class FormFeedback : Form
     {
+        private const string From = "r0bari2@yandex.ru";
+        private const string Subject = "Shutdown. Предложения";
+
         public FormFeedback()
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Отправка сообщения
         /// </summary>
@@ -26,11 +24,8 @@ namespace C4
         {
             if (mailName.Text != string.Empty)
             {
-
-                string from = "r0bari2@yandex.ru";
-                string subject = "C4. Предложения";
                 string body = "<h3>" + mailName.Text + "</h3><p>" + messageText.Text + "</p>";
-                MailMessage message = new MailMessage(from, from, subject, body)
+                MailMessage message = new MailMessage(From, From, Subject, body)
                 {
                     IsBodyHtml = true
                 };
@@ -55,12 +50,13 @@ namespace C4
 
                 message.Dispose();
                 smtp.Dispose();
-            } 
+            }
             else
             {
                 MessageBox.Show("Вы не ввели имя отправителя.");
             }
         }
+
         /// <summary>
         /// Подтверждение выхода из программы
         /// </summary>
@@ -68,9 +64,13 @@ namespace C4
         /// <param name="e"></param>
         private void FormFeedback_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && this.DialogResult != DialogResult.OK)
+            if (e.CloseReason == CloseReason.UserClosing && DialogResult != DialogResult.OK)
             {
-                if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                if (MessageBox.Show(
+                        "Вы уверены, что хотите выйти?",
+                        "Подтверждение",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     Application.Exit();
                 }

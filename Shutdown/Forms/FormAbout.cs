@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
 using System.Windows.Forms;
+using C4;
 
-namespace C4
+namespace Shutdown.Host.Forms
 {
     public partial class FormAbout : Form
     {
-        private static readonly FormFeedback _formFeedback = new FormFeedback();
+        private static readonly FormFeedback FormFeedback = new FormFeedback();
+
         public FormAbout()
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Переход в форму "Обратная связь"
         /// </summary>
@@ -25,12 +20,13 @@ namespace C4
         /// <param name="e"></param>
         private void Feedback_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            if (_formFeedback.ShowDialog() == DialogResult.OK)
+            Hide();
+            if (FormFeedback.ShowDialog() == DialogResult.OK)
             {
-                this.Show();
+                Show();
             }
         }
+
         /// <summary>
         /// Подтверждение выхода из программы
         /// </summary>
@@ -38,12 +34,17 @@ namespace C4
         /// <param name="e"></param>
         private void FormAbout_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && this.DialogResult != DialogResult.OK)
+            if (e.CloseReason == CloseReason.UserClosing && DialogResult != DialogResult.OK)
             {
-                if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                if (MessageBox.Show(
+                        "Вы уверены, что хотите выйти?",
+                        "Подтверждение",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     Application.Exit();
-                } else
+                }
+                else
                 {
                     e.Cancel = true;
                 }

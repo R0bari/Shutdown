@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace C4
+namespace Shutdown.Host.Forms
 {
     partial class FormMain
     {
@@ -270,7 +270,7 @@ namespace C4
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(350, 445);
             this.Name = "FormMain";
-            this.Text = "C4";
+            this.Text = "Shutdown";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfirmClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

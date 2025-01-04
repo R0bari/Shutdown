@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
-namespace C4
+namespace Shutdown.Host.Forms
 {
     public partial class FormMain : Form
     {
-        private static readonly FormAbout _formAbout = new FormAbout();
+        private static readonly FormAbout FormAbout = new FormAbout();
+
         public FormMain()
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Обработка нажатия на кнопку "Принять"
         /// </summary>
@@ -27,17 +23,17 @@ namespace C4
             CancelPlannedShutdown();
 
             DateTime time = DateTime.Now.AddHours(Convert.ToDouble(numericTimerHour.Value))
-                    .AddMinutes(Convert.ToDouble(numericTimerMinute.Value))
-                    .AddSeconds(Convert.ToDouble(numericTimerSec.Value));
+                .AddMinutes(Convert.ToDouble(numericTimerMinute.Value))
+                .AddSeconds(Convert.ToDouble(numericTimerSec.Value));
 
             int timeParam = Convert.ToInt32(numericTimerHour.Value * 60 * 60) +
-                    Convert.ToInt32(numericTimerMinute.Value * 60) +
-                    Convert.ToInt32(numericTimerSec.Value);
+                            Convert.ToInt32(numericTimerMinute.Value * 60) +
+                            Convert.ToInt32(numericTimerSec.Value);
 
             string messageText = $"Компьютер будет {(radioButtonOff.Checked ? "выключен" : "перезагружен")} в " +
-                   ((time.Hour > 9) ? time.Hour.ToString() : "0" + time.Hour) + ":" +
-                   ((time.Minute > 9) ? time.Minute.ToString() : "0" + time.Minute) + ":" +
-                   ((time.Second > 9) ? time.Second.ToString() : "0" + time.Second) + ".";
+                                 (time.Hour > 9 ? time.Hour.ToString() : "0" + time.Hour) + ":" +
+                                 (time.Minute > 9 ? time.Minute.ToString() : "0" + time.Minute) + ":" +
+                                 (time.Second > 9 ? time.Second.ToString() : "0" + time.Second) + ".";
             statusText.Text = messageText;
 
             ProcessStartInfo command = new ProcessStartInfo
@@ -51,20 +47,15 @@ namespace C4
             command.Arguments += radioButtonOff.Checked ? "/s " : "/r ";
 
             if (IsScheduledTime())
-            {
                 command.Arguments += " /t " + timeParam;
-            }
 
             if (ConfirmShutdown(timeParam))
-            {
                 Process.Start(command);
-            }
-            
+
             if (timeParam > 600)
-            {
                 MessageBox.Show(messageText);
-            }
         }
+
         /// <summary>
         /// Отменить запланированное выключение/перезагрузку компьютера
         /// </summary>
@@ -77,36 +68,31 @@ namespace C4
             };
             Process.Start(cancelCommand);
         }
+
         /// <summary>
         /// Проверить, установлено ли время отключения
         /// </summary>
         /// <returns></returns>
         private bool IsScheduledTime() => numericTimerHour.Value + numericTimerMinute.Value + numericTimerSec.Value > 0;
+
         /// <summary>
         /// Подтверждение выключения/перезагрузки
         /// </summary>
         /// <param name="timeParam">Время, по истечении которого компьютер должен быть выключен/перезагружен</param>
         /// <returns></returns>
-        private bool ConfirmShutdown(int timeParam)
+        private static bool ConfirmShutdown(int timeParam)
         {
             if (timeParam > 0)
-            {
                 return true;
-            }
-            if (timeParam == 0)
-            {
-                if (MessageBox.Show("Вы действительно хотите выключить компьютер прямо сейчас?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) ==
-                DialogResult.Yes)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
+
+            return timeParam == 0 &&
+                   MessageBox.Show(
+                       "Вы действительно хотите выключить компьютер прямо сейчас?",
+                       "Подтверждение",
+                       MessageBoxButtons.YesNo,
+                       MessageBoxIcon.Exclamation) == DialogResult.Yes;
         }
+
         /// <summary>
         /// Отмена запланированного выключения/перезагрузки компьютера
         /// </summary>
@@ -118,6 +104,7 @@ namespace C4
             numericTimerHour.Value = numericTimerMinute.Value = numericTimerSec.Value = 0;
             statusText.Text = "Запланированное выключение/перезагрузка отменено";
         }
+
         /// <summary>
         /// Выход из программы
         /// </summary>
@@ -125,11 +112,16 @@ namespace C4
         /// <param name="e"></param>
         private void CloseForm(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (MessageBox.Show(
+                    "Вы уверены, что хотите выйти?",
+                    "Подтверждение",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 Application.Exit();
             }
         }
+
         /// <summary>
         /// Открытие информации об авторе
         /// </summary>
@@ -137,12 +129,11 @@ namespace C4
         /// <param name="e"></param>
         private void ShowAbout(object sender, EventArgs e)
         {
-            this.Hide();
-            if (_formAbout.ShowDialog() == DialogResult.OK)
-            {
-                this.Show();
-            }
+            Hide();
+            if (FormAbout.ShowDialog() == DialogResult.OK)
+                Show();
         }
+
         /// <summary>
         /// Подтвреждение выхода
         /// </summary>
@@ -150,13 +141,13 @@ namespace C4
         /// <param name="e"></param>
         private void ConfirmClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
-                {
-                    e.Cancel = true;
-                }
-            }
+            if (e.CloseReason == CloseReason.UserClosing
+                && MessageBox.Show(
+                    "Вы уверены, что хотите выйти?",
+                    "Подтверждение",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation) != DialogResult.Yes)
+                e.Cancel = true;
         }
     }
 }

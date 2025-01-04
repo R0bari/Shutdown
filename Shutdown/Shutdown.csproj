@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0B8A3A66-92A1-4914-A020-892CAF3DDA0C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>C4</RootNamespace>
-    <AssemblyName>C4</AssemblyName>
+    <RootNamespace>Shutdown.Host</RootNamespace>
+    <AssemblyName>Shutdown.Host</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
+using Shutdown.Host.Forms;
 
-namespace C4
+namespace Shutdown.Host
 {
-    static class Program
+    internal static class Program
     {
-        /// <summary>
-        /// Главная точка входа для приложения.
-        /// </summary>
         [STAThread]
         static void Main()
         {

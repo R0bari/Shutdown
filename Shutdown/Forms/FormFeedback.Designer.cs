@@ -1,4 +1,4 @@
-﻿namespace C4
+﻿namespace Shutdown.Host.Forms
 {
     partial class FormFeedback
     {

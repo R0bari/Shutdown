@@ -1,4 +1,4 @@
-﻿namespace C4
+﻿namespace Shutdown.Host.Forms
 {
     partial class FormAbout
     {
@@ -99,7 +99,7 @@
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(350, 500);
             this.Name = "FormAbout";
-            this.Text = "C4";
+            this.Text = "Shutdown";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAbout_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
